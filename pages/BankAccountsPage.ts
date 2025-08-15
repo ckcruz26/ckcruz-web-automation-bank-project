@@ -66,12 +66,16 @@ export class BankAccountsPage {
     const accountCount = await this.accountLI.count();
 
     for (let i = 0; i < accountCount; i++) {
-      const item = this.accountLI.nth(i); // define item here
+      const item = this.accountLI.nth(i);
+      const accountName = (await item.locator("p").textContent())?.trim();
 
-      const deleteButton = item.locator('[data-test="bankaccount-delete"]');
-      if ((await deleteButton.count()) > 0) {
-        await deleteButton.click();
-        await this.page.waitForTimeout(500); // small delay
+      if (accountName?.includes("Dummy Bank")) {
+        const deleteButton = item.locator('[data-test="bankaccount-delete"]');
+        if ((await deleteButton.count()) > 0) {
+          await deleteButton.click();
+          await this.page.waitForTimeout(500);
+          break; // stop after first deletion
+        }
       }
     }
   }
