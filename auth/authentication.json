@@ -1,0 +1,25 @@
+{
+  "cookies": [
+    {
+      "name": "connect.sid",
+      "value": "s%3AoLidDQB1xXI2a_XwXF--QxPROK4Bld2N.Gl6AME9DGmh5ebaUCt%2BV%2BVVLBe8VNcxjlskzfOXqc98",
+      "domain": "localhost",
+      "path": "/",
+      "expires": -1,
+      "httpOnly": true,
+      "secure": false,
+      "sameSite": "None"
+    }
+  ],
+  "origins": [
+    {
+      "origin": "http://localhost:3000",
+      "localStorage": [
+        {
+          "name": "authState",
+          "value": "{\"actions\":[{\"type\":\"xstate.stop\",\"activity\":{\"src\":{\"type\":\"performLogin\"},\"id\":\"authentication.loading:invocation[0]\",\"type\":\"xstate.invoke\"}},{\"type\":\"redirectHomeAfterLogin\"}],\"activities\":{\"authentication.loading:invocation[0]\":false},\"meta\":{},\"events\":[],\"value\":\"authorized\",\"context\":{\"user\":{\"id\":\"uNGlVS9GI\",\"uuid\":\"0d7e96bb-12e0-4f21-b7d0-ca38d9ee3b8e\",\"firstName\":\"Daisha\",\"lastName\":\"Medhurst\",\"username\":\"ckcruz\",\"password\":\"$2a$10$Z0Is.OWFaxt9/64ksC5JYeqlJTm7KiEGeYYsmunAKGHwFGeVgwmeW\",\"email\":\"Karlie.Stamm93@hotmail.com\",\"phoneNumber\":\"12162488915\",\"balance\":0,\"createdAt\":\"2025-08-14T12:54:37.922Z\",\"modifiedAt\":\"2025-08-14T12:54:37.922Z\"}},\"_event\":{\"name\":\"done.invoke.authentication.loading:invocation[0]\",\"data\":{\"type\":\"done.invoke.authentication.loading:invocation[0]\",\"data\":{\"user\":{\"id\":\"uNGlVS9GI\",\"uuid\":\"0d7e96bb-12e0-4f21-b7d0-ca38d9ee3b8e\",\"firstName\":\"Daisha\",\"lastName\":\"Medhurst\",\"username\":\"ckcruz\",\"password\":\"$2a$10$Z0Is.OWFaxt9/64ksC5JYeqlJTm7KiEGeYYsmunAKGHwFGeVgwmeW\",\"email\":\"Karlie.Stamm93@hotmail.com\",\"phoneNumber\":\"12162488915\",\"balance\":0,\"createdAt\":\"2025-08-14T12:54:37.922Z\",\"modifiedAt\":\"2025-08-14T12:54:37.922Z\"}}},\"$$type\":\"scxml\",\"type\":\"external\",\"origin\":\"authentication.loading:invocation[0]\"},\"_sessionid\":\"x:0\",\"event\":{\"type\":\"done.invoke.authentication.loading:invocation[0]\",\"data\":{\"user\":{\"id\":\"uNGlVS9GI\",\"uuid\":\"0d7e96bb-12e0-4f21-b7d0-ca38d9ee3b8e\",\"firstName\":\"Daisha\",\"lastName\":\"Medhurst\",\"username\":\"ckcruz\",\"password\":\"$2a$10$Z0Is.OWFaxt9/64ksC5JYeqlJTm7KiEGeYYsmunAKGHwFGeVgwmeW\",\"email\":\"Karlie.Stamm93@hotmail.com\",\"phoneNumber\":\"12162488915\",\"balance\":0,\"createdAt\":\"2025-08-14T12:54:37.922Z\",\"modifiedAt\":\"2025-08-14T12:54:37.922Z\"}}},\"historyValue\":{\"current\":\"authorized\",\"states\":{}},\"history\":{\"actions\":[{\"type\":\"xstate.start\",\"activity\":{\"src\":{\"type\":\"performLogin\"},\"id\":\"authentication.loading:invocation[0]\",\"type\":\"xstate.invoke\"}}],\"activities\":{\"authentication.loading:invocation[0]\":{\"type\":\"xstate.start\",\"activity\":{\"src\":{\"type\":\"performLogin\"},\"id\":\"authentication.loading:invocation[0]\",\"type\":\"xstate.invoke\"}}},\"meta\":{},\"events\":[],\"value\":\"loading\",\"context\":{},\"_event\":{\"name\":\"LOGIN\",\"data\":{\"type\":\"LOGIN\",\"username\":\"ckcruz\",\"password\":\"admin123\"},\"$$type\":\"scxml\",\"type\":\"external\"},\"_sessionid\":\"x:0\",\"event\":{\"type\":\"LOGIN\",\"username\":\"ckcruz\",\"password\":\"admin123\"},\"historyValue\":{\"current\":\"loading\",\"states\":{}},\"children\":{},\"done\":false,\"changed\":true,\"tags\":[]},\"children\":{},\"done\":false,\"changed\":true,\"tags\":[]}"
+        }
+      ]
+    }
+  ]
+}
