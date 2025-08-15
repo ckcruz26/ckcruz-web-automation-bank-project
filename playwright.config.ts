@@ -26,7 +26,7 @@ export default defineConfig({
     ['dot'],
     ['list'],
     ['allure-playwright'],
-    ['json', { outputFile: 'test-results.json' }],
+    ["html", { outputFolder: "./playwright-report", open: "never" }],
   ],
   use: {
     launchOptions: {
