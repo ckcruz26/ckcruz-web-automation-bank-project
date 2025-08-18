@@ -49,8 +49,12 @@ export class LoginPage {
    * Verifies that the error message is visible and matches the expected error.
    */
   async verifyErrorMessage(expectedError: string) {
-    await expect(this.errorMsgLocator).toBeVisible();
-    await expect(this.errorMsgLocator).toHaveText(expectedError);
+    try {
+      await expect(this.errorMsgLocator).toBeVisible();
+      await expect(this.errorMsgLocator).toHaveText(expectedError);
+    } catch (error) {
+      throw new Error(`Error verifying error message: ${error}`);
+    }
   }
 
   /*
