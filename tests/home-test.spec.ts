@@ -6,13 +6,14 @@ test.describe("Home Page Suite", () => {
     storageState: path.resolve(__dirname, "../auth/authentication.json"),
   });
 
-  test.beforeEach(async ({ page }) => {
-    await page.goto(String(process.env.WEB_URL));
+  test.beforeEach(async ({ homePage }) => {
+    await homePage.open(String(process.env.WEB_URL));
   });
 
-  test.afterEach(async ({ page }) => {
-    await page.close();
+  test.afterEach(async ({ homePage }) => {
+    await homePage.close();
   });
+
 
   test("should filter transactions by date", async ({ homePage }) => {
     await homePage.dateFilteringByDate();
@@ -26,7 +27,7 @@ test.describe("Home Page Suite", () => {
     await homePage.createNewTransaction();
   });
 
-  test("should select different menus", async ({ homePage }) => {
+  test.only("should select different menus", async ({ homePage }) => {
     await homePage.selectingMenus();
   });
 

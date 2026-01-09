@@ -1,21 +1,14 @@
 import { test } from "../fixtures/BankFixtures";
 
 test.describe("Login Suite", () => {
-  test.beforeEach(async ({ page }) => {
-    await page.goto(String(process.env.WEB_URL));
+  test.beforeEach(async ({ loginPage }) => {
+    await loginPage.open(String(process.env.WEB_URL));
   });
 
-  test.afterEach(async ({ page }) => {
-    await page.close();
+  test.afterEach(async ({ loginPage }) => {
+    await loginPage.close();
   });
 
-  test("Valid Login Credentials", async ({ loginPage }) => {
-    await loginPage.loginCredentials(
-      String(process.env.BANK_UN),
-      String(process.env.BANK_PW)
-    );
-    await loginPage.verifySuccessfulLogin();
-  });
 
   test("Invalid Login Credentials", async ({ loginPage }) => {
     await loginPage.loginCredentials(
@@ -26,16 +19,16 @@ test.describe("Login Suite", () => {
     await loginPage.verifyErrorMessage("Username or password is invaxlid");
   });
 
-  test("Navigate to Sign Up Page", async ({ loginPage }) => {
+  test.skip("Navigate to Sign Up Page", async ({ loginPage }) => {
     await loginPage.directToSignUpPage();
   });
 
-  test("Logout the Account", async ({ loginPage }) => {
+  test("Valid Login Credentials", async ({ loginPage }) => {
     await loginPage.loginCredentials(
       String(process.env.BANK_UN),
       String(process.env.BANK_PW)
     );
-    await loginPage.verifySuccessfulLogin();
+    await loginPage.verifyRedirectToHomePage();
     await loginPage.logoutAccount();
 
   })

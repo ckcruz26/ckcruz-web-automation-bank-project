@@ -1,35 +1,14 @@
 import { Page, Locator, expect } from "@playwright/test";
+import BasePage from "../base/Base";
+import { th } from "@faker-js/faker";
 
-export class MyAccountPage {
-  readonly Page;
-
-  readonly headingSettingsLabel: Locator;
-  readonly accountFirstNameField: Locator;
-  readonly accountLastNameField: Locator;
-  readonly accountEmailField: Locator;
-  readonly accountPhoneField: Locator;
-  readonly accountButtonSave: Locator;
-
-  constructor(page: Page) {
-    this.Page = page;
-    // Locators for the account details fields
-    this.headingSettingsLabel = page.getByRole("heading", {
-      name: "User Settings",
-    });
-    this.accountFirstNameField = page.locator(
-      '[data-test="user-settings-firstName-input"]'
-    );
-    this.accountLastNameField = page.locator(
-      '[data-test="user-settings-lastName-input"]'
-    );
-    this.accountEmailField = page.locator(
-      '[data-test="user-settings-email-input"]'
-    );
-    this.accountPhoneField = page.locator(
-      '[data-test="user-settings-phoneNumber-input"]'
-    );
-    this.accountButtonSave = page.locator('[data-test="user-settings-submit"]');
-  }
+export class MyAccountPage extends BasePage {
+  readonly accountFirstNameField =
+    '[data-test="user-settings-firstName-input"]';
+  readonly accountLastNameField = '[data-test="user-settings-lastName-input"]';
+  readonly accountEmailField = '[data-test="user-settings-email-input"]';
+  readonly accountPhoneField = '[data-test="user-settings-phoneNumber-input"]';
+  readonly accountButtonSave = '[data-test="user-settings-submit"]';
 
   /*
    * Updates the account details with the provided first name, last name, email, and phone.
@@ -47,23 +26,28 @@ export class MyAccountPage {
     email: string,
     phone: string
   ) {
-    await expect(this.headingSettingsLabel).toBeVisible();
-    await this.headingSettingsLabel.isVisible();
+    const headingSettingsLabel = await this.getElementByRole(
+      "heading",
+      "User Settings"
+    );
 
-    await expect(this.accountFirstNameField).toBeVisible();
-    await this.accountFirstNameField.fill(firstName);
+    await this.expectVisible(headingSettingsLabel);
+    
+    await this.expectVisible(this.accountFirstNameField);
+    await this.type(this.accountFirstNameField, firstName);
+    
+    await this.expectVisible(this.accountLastNameField);
+    await this.type(this.accountLastNameField, lastName);
+    
+    await this.expectVisible(this.accountEmailField);
+    await this.type(this.accountEmailField, email);
 
-    await expect(this.accountLastNameField).toBeVisible();
-    await this.accountLastNameField.fill(lastName);
+    await this.expectVisible(this.accountPhoneField);
+    await this.type(this.accountPhoneField, phone);
 
-    await expect(this.accountEmailField).toBeVisible();
-    await this.accountEmailField.fill(email);
+    await this.expectVisible(this.accountButtonSave);
+    await this.click(this.accountButtonSave);
 
-    await expect(this.accountPhoneField).toBeVisible();
-    await this.accountPhoneField.fill(phone);
-
-    await expect(this.accountButtonSave).toBeVisible();
-    await this.accountButtonSave.click();
   }
 
   /*
@@ -81,21 +65,25 @@ export class MyAccountPage {
     email: string,
     phone: string
   ) {
-    await expect(this.headingSettingsLabel).toBeVisible();
-    await this.headingSettingsLabel.isVisible();
+    const headingSettingsLabel = await this.getElementByRole(
+      "heading",
+      "User Settings"
+    );
+    await this.expectVisible(headingSettingsLabel);
 
-    await expect(this.accountFirstNameField).toBeVisible();
-    await this.accountFirstNameField.fill(firstName);
+    await this.expectVisible(this.accountFirstNameField);
+    await this.type(this.accountFirstNameField, firstName);
+    
+    await this.expectVisible(this.accountLastNameField);
+    await this.type(this.accountLastNameField, lastName);
+    
+    await this.expectVisible(this.accountEmailField);
+    await this.type(this.accountEmailField, email);
 
-    await expect(this.accountLastNameField).toBeVisible();
-    await this.accountLastNameField.fill(lastName);
+    await this.expectVisible(this.accountPhoneField);
+    await this.type(this.accountPhoneField, phone);
 
-    await expect(this.accountEmailField).toBeVisible();
-    await this.accountEmailField.fill(email);
-
-    await expect(this.accountPhoneField).toBeVisible();
-    await this.accountPhoneField.fill(phone);
-
-    await expect(this.accountButtonSave).toBeDisabled();
+    await this.isElementDisabled(this.accountButtonSave);
+    
   }
 }
