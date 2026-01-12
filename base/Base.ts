@@ -52,9 +52,16 @@ export default abstract class BasePage {
     await el.fill(text);
   }
 
+  async getByLocator(selector: string) {
+    return await this.page.locator(selector);
+  }
   async expectVisible(selector: string | Locator) {
     const el = this.resolveLocator(selector);
     await expect(el).toBeVisible();
+  }
+
+  async notToBeNull(value : string) {
+    await expect(value).not.toBeNull();
   }
 
   async expectHidden(selector: string | Locator) {
@@ -70,6 +77,11 @@ export default abstract class BasePage {
   async isElementDisabled(selector: string | Locator) {
     const el = this.resolveLocator(selector);
     await expect(el).toBeDisabled();
+  }
+
+  async isElementEnabled(selector: string | Locator) {
+    const el = this.resolveLocator(selector);
+    await expect(el).toBeEnabled();
   }
 
   /* =====================

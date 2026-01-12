@@ -1,43 +1,34 @@
 import { Page, Locator, expect } from "@playwright/test";
+import BasePage from "../base/Base";
 
-export class BankAccountsPage {
-  readonly page: Page;
-  readonly accountUL: Locator;
-  readonly accountLI: Locator;
+export class BankAccountsPage extends BasePage{
+ 
+  readonly accountUL = 'ul[data-test="bankaccount-list"]'
+  readonly accountLI = 'li';
 
-  readonly bankAccNewButton: Locator;
-  readonly accountNameInput: Locator;
-  readonly routingNumberInput: Locator;
-  readonly accountNumberInput: Locator;
-  readonly createAccountButton: Locator;
+  readonly bankAccNewButton = '[data-test="bankaccount-new"]';
+  readonly accountNameInput = '#bankaccount-bankName-input';
+  readonly routingNumberInput = '#bankaccount-routingNumber-input';
+  readonly accountNumberInput = '#bankaccount-accountNumber-input';
+  readonly createAccountButton = '[data-test="bankaccount-submit"]';
 
-  constructor(page: Page) {
-    this.page = page;
-    this.accountUL = page.locator('ul[data-test="bankaccount-list"]');
-    this.accountLI = this.accountUL.locator("li");
-
-    //bank account form locators
-    this.bankAccNewButton = page.locator('[data-test="bankaccount-new"]');
-    this.accountNameInput = page.getByRole("textbox", { name: "Bank Name" });
-    this.routingNumberInput = page.getByRole("textbox", {
-      name: "Routing Number",
-    });
-    this.accountNumberInput = page.getByRole("textbox", {
-      name: "Account Number",
-    });
-
-    this.createAccountButton = page.locator('[data-test="bankaccount-submit"]');
-  }
 
   async displayAccountNamesInList() {
-    const accountCount = await this.accountLI.count();
+    // UL locator
+    const accountUL = await this.getByLocator(this.accountUL);
+
+    // LI locators inside UL
+    const accountItems = accountUL.locator(this.accountLI);
+    const accountCount = await accountItems.count();
 
     for (let i = 0; i < accountCount; i++) {
-      const accountName = await this.accountLI
+      const accountName = await accountItems
         .nth(i)
-        .locator("p")
+        .locator('p')
         .textContent();
-      await expect(accountName).not.toBeNull();
+
+      await this.notToBeNull(String(accountName));
+      console.log(`Account ${i + 1}:`, accountName);
     }
   }
 
@@ -46,33 +37,43 @@ export class BankAccountsPage {
     routingNumber: string,
     accountNumber: string
   ) {
-    await expect(this.bankAccNewButton).toBeVisible();
-    await this.bankAccNewButton.click();
 
-    await expect(this.accountNameInput).toBeVisible();
-    await this.accountNameInput.fill(accountName);
 
-    await expect(this.routingNumberInput).toBeVisible();
-    await this.routingNumberInput.fill(routingNumber);
+    await this.expectVisible(this.bankAccNewButton)
+    await this.click(this.bankAccNewButton);
 
-    await expect(this.accountNumberInput).toBeVisible();
-    await this.accountNumberInput.fill(accountNumber);
+    await this.expectVisible(this.accountNameInput);
+    await this.type(this.accountNameInput, accountName);
 
-    await expect(this.createAccountButton).toBeVisible();
-    await this.createAccountButton.click();
+    await this.expectVisible(this.routingNumberInput);
+    await this.type(this.routingNumberInput, routingNumber);
+    
+    await this.expectVisible(this.accountNumberInput);
+    await this.type(this.accountNumberInput, accountNumber);
+
+    await this.expectVisible(this.createAccountButton);
+    await this.click(this.createAccountButton);
+
   }
 
   async deleteSpecificBankAccount() {
-    const accountCount = await this.accountLI.count();
+    // UL locator
+    const accountUL = await this.getByLocator(this.accountUL);
+
+    // LI locators inside UL
+    const accountItems = accountUL.locator(this.accountLI);
+    const accountCount = await accountItems.count();
 
     for (let i = 0; i < accountCount; i++) {
-      const item = this.accountLI.nth(i);
+      const item = accountItems.nth(i);
       const accountName = (await item.locator("p").textContent())?.trim();
 
       if (accountName?.includes("Dummy Bank")) {
         const deleteButton = item.locator('[data-test="bankaccount-delete"]');
         if ((await deleteButton.count()) > 0) {
-          await deleteButton.click();
+          console.log(`Deleting account: ${accountName}`);
+          await this.expectVisible(deleteButton);
+          await this.click(deleteButton);
           await this.page.waitForTimeout(500);
           break; // stop after first deletion
         }

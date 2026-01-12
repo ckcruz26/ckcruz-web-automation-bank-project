@@ -27,7 +27,7 @@ test.describe("Home Page Suite", () => {
     await homePage.createNewTransaction();
   });
 
-  test.only("should select different menus", async ({ homePage }) => {
+  test("should select different menus", async ({ homePage }) => {
     await homePage.selectingMenus();
   });
 

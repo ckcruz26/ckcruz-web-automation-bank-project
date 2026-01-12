@@ -7,12 +7,12 @@ test.describe("Home Page Suite", () => {
     storageState: path.resolve(__dirname, "../auth/authentication.json"),
   });
 
-  test.beforeEach(async ({ page }) => {
-    await page.goto(String(process.env.WEB_URL + "bankaccounts"));
+  test.beforeEach(async ({ bankAccountsPage }) => {
+    await bankAccountsPage.open(String(process.env.WEB_URL + "bankaccounts"));
   });
 
-  test.afterEach(async ({ page }) => {
-    await page.close();
+  test.afterEach(async ({ bankAccountsPage }) => {
+    await bankAccountsPage.close();
   });
 
   test("bank accounts display", async ({ bankAccountsPage }) => {

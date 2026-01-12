@@ -1,45 +1,38 @@
 import { Page, Locator, expect } from "@playwright/test";
-import { faker } from "@faker-js/faker";
+import { faker, th } from "@faker-js/faker";
+import BasePage from "../base/Base";
 
-export class SignUpPage {
-  readonly Page;
-  readonly firstNameField: Locator;
-  readonly lastNameField: Locator;
-  readonly userNameField: Locator;
-  readonly passwordField: Locator;
-  readonly confirmPasswordField: Locator;
-  readonly signUpButton: Locator;
+export class SignUpPage extends BasePage {
+  readonly firstNameField = "#firstName";
+  readonly lastNameField = "#lastName";
+  readonly userNameField = "#username";
+  readonly passwordField = "#password";
+  readonly confirmPasswordField = "#confirmPassword";
+  readonly signUpButton = '[data-test="signup-submit"]';
 
-  readonly errorMsgLocator: Locator;
-
-  constructor(page: Page) {
-    this.Page = page;
-    this.firstNameField = page.getByRole("textbox", { name: "First Name" });
-    this.lastNameField = page.getByRole("textbox", { name: "Last Name" });
-    this.userNameField = page.getByRole("textbox", { name: "Username" });
-    this.passwordField = page.locator("#password");
-    this.confirmPasswordField = page.locator("#confirmPassword");
-    this.signUpButton = page.locator('[data-test="signup-submit"]');
-
-    this.errorMsgLocator = page.locator("#firstName-helper-text");
-  }
+  readonly errorMsgLocator = "#firstName-helper-text";
 
   /*
    * Fills up the required fields with random data and submits the form.
    * Uses faker to generate random first name, last name, username, and password.
    */
   async fillUpRequiredFields() {
-    const firstName = faker.person.firstName();
-    const lastName = faker.person.lastName();
-    const userName = faker.internet.username();
-    const password = faker.internet.password();
+    const formData = [
+      { locator: this.firstNameField, value: faker.person.firstName() },
+      { locator: this.lastNameField, value: faker.person.lastName() },
+      { locator: this.userNameField, value: faker.internet.username() },
+      { locator: this.passwordField, value: '1231313131' },
+      { locator: this.confirmPasswordField, value: '1231313131' },
+    ];
 
-    await this.firstNameField.fill(firstName);
-    await this.lastNameField.fill(lastName);
-    await this.userNameField.fill(userName);
-    await this.passwordField.fill(password);
-    await this.confirmPasswordField.fill(password);
-    await this.signUpButton.click();
+    for (const { locator, value } of formData) {
+      await this.expectVisible(locator);
+      await this.type(locator, value);
+    }
+
+    await this.isElementEnabled(this.signUpButton);
+    await this.expectVisible(this.signUpButton);
+    await this.click(this.signUpButton);
   }
 
   /* @param errorMessage: The expected error message to be displayed.
@@ -47,8 +40,10 @@ export class SignUpPage {
    *  Expects an error message to be visible.
    */
   async skipAllRequiredFields(errorMessage: string) {
-    await this.signUpButton.click();
-    await expect(this.errorMsgLocator).toBeVisible();
-    await expect(this.errorMsgLocator).toHaveText(errorMessage);
+    await this.isElementEnabled(this.signUpButton);
+    await this.expectVisible(this.signUpButton);
+    await this.click(this.signUpButton);
+    await this.expectVisible(this.errorMsgLocator);
+    await this.expectText(this.errorMsgLocator, errorMessage);
   }
 }
